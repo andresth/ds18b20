@@ -106,5 +106,6 @@ float ds18b20_get_temp(void) {
 void ds18b20_init(int GPIO){
   DS_GPIO = GPIO;
   gpio_pad_select_gpio(DS_GPIO);
+  gpio_set_pull_mode(DS_GPIO, GPIO_PULLUP_ONLY);
   init=1;
 }
