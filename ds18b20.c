@@ -29,17 +29,32 @@ void ds18b20_send(char bit){
   ets_delay_us(80);
   gpio_set_level(DS_GPIO,1);
 }
+
 // Reads one bit from bus
-unsigned char ds18b20_read(void){
-  unsigned char PRESENCE=0;
-  gpio_set_direction(DS_GPIO, GPIO_MODE_OUTPUT);
-  gpio_set_level(DS_GPIO,0);
-  ets_delay_us(2);
-  gpio_set_level(DS_GPIO,1);
-  ets_delay_us(15);
-  gpio_set_direction(DS_GPIO, GPIO_MODE_INPUT);
-  if(gpio_get_level(DS_GPIO)==1) PRESENCE=1; else PRESENCE=0;
-  return(PRESENCE);
+char ds18b20_read() {
+    // issue read time slot
+    gpio_set_direction(DS_GPIO, GPIO_MODE_OUTPUT);
+    gpio_set_level(DS_GPIO, 0);
+    ets_delay_us(2);
+    gpio_set_direction(DS_GPIO, GPIO_MODE_INPUT);
+
+    // read data from bus
+    unsigned char duration = 0;
+    while (gpio_get_level(DS_GPIO) == 0) {
+        ets_delay_us(1);
+        duration++;
+    }
+
+    // wait for time slot to be 61µs long
+    ets_delay_us(61 - duration);
+
+    if (duration < 15) {
+        return 1;
+    } else if (duration >= 15) {
+        return 0;
+    } else {
+        return -1;
+    }
 }
 // Sends one byte to bus
 void ds18b20_send_byte(char data){

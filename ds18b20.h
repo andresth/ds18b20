@@ -16,7 +16,7 @@
 #define DS18B20_H_
 
 void ds18b20_send(char bit);
-unsigned char ds18b20_read(void);
+char ds18b20_read();
 void ds18b20_send_byte(char data);
 unsigned char ds18b20_read_byte(void);
 unsigned char ds18b20_RST_PULSE(void);
