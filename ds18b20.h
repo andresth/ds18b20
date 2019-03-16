@@ -12,13 +12,13 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef DS18B20_H_  
+#ifndef DS18B20_H_
 #define DS18B20_H_
 
 void ds18b20_send(char bit);
 char ds18b20_read();
 void ds18b20_send_byte(char data);
-unsigned char ds18b20_read_byte(void);
+unsigned char ds18b20_read_byte();
 unsigned char ds18b20_RST_PULSE(void);
 float ds18b20_get_temp(void);
 void ds18b20_init(int GPIO);
